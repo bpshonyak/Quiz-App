@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Create questions
-        ArrayList<Question> questions = new ArrayList<Question>();
+        ArrayList<Question> questions = new ArrayList<>();
         questions.add(new Question("America became independent in the year 1776.", true));
         questions.add(new Question("Bogdan is the real boss man.", false));
         questions.add(new Question("Yegor is the real boss man.", true));
@@ -53,61 +53,81 @@ public class MainActivity extends AppCompatActivity {
         loadQuestion();
     }
 
+    /**
+     * Called when false button is clicked
+     * @param view Button View object
+     */
     public void falseClicked(View view){
 
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        CharSequence text;
+        submitAnswer(false);
 
-        if (game.answerQuestion(false)){
-             text = "Correct!";
-
-        } else {
-            text = "Oopps!";
-        }
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-
-        disableButtons();
     }
 
+    /**
+     * Called when true button is clicked
+     * @param view Button View object
+     */
     public void trueClicked(View view){
 
+        submitAnswer(true);
+    }
+
+    /**
+     * Handle answer submission
+     * @param answer Boolean value of answer
+     */
+    public void submitAnswer(boolean answer){
+
+        //Necessary variables to create toast
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         CharSequence text;
 
-        if (game.answerQuestion(true)){
+        //Verify answer
+        if (game.answerQuestion(answer)){
             text = "Correct!";
-
         } else {
             text = "Oopps!";
         }
 
+        //Create and show toast
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
 
+        //Disable answer buttons
         disableButtons();
     }
 
+    /**
+     * Handle next button click
+     * @param view Next button View object
+     */
     public void nextClicked(View view){
         loadQuestion();
         enableButtons();
     }
 
+    /**
+     * Disable answer buttons
+     */
     public void disableButtons() {
         falseBtn.setEnabled(false);
         trueBtn.setEnabled(false);
         nextBtn.setEnabled(true);
     }
 
+    /**
+     * Enable answer buttons
+     */
     public void enableButtons() {
         falseBtn.setEnabled(true);
         trueBtn.setEnabled(true);
         nextBtn.setEnabled(false);
     }
 
+    /**
+     * Load new question
+     */
     public void loadQuestion(){
         Question newQ = game.getNextQuestion();
 
@@ -115,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
             TextView qText = (TextView) findViewById(R.id.questionText);
             qText.setText(newQ.getQuestion());
         } else {
+
+            //Call results activity if there are no more questions
 
             String message = "You got " + game.getCorrect() +
                              " correct out of " +

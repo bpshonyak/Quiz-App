@@ -12,6 +12,8 @@ public class ResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        //Update result text
+
         TextView resultsTxt = (TextView) findViewById(R.id.resultsTxt);
 
         Intent intent = getIntent();
